@@ -1,7 +1,3 @@
-#!/usr/bin/Rscript
-
-# Script to produce input data for clustering with BackSPIN and vizualisation with SPRING.
-# Volker Hovestadt (hovestadt@broadinstitute.org), Jan 14, 2019
 #
 # From the methods:
 #
@@ -53,19 +49,12 @@ loadStarExpr <- function(files, names, min.umis=NULL, min.genes=NULL, cells=NULL
   for(i in seq(length(files))) {
     message(files[i])
     load(files[i])  # contains objects d and d.stats
-    #      colnames(d) <- paste0(names[i], "_", colnames(d)) 
+    #colnames(d) <- paste0(names[i], "_", colnames(d)) 
     if(!is.null(min.umis) & !is.null(min.genes)) d <- filterCells(d, min.umis=min.umis, min.genes=min.genes)
      
-    # GSM3588003_BM5-34p38n.star.expr.RData 파일일 때만 필터링 적용
-    if (files[i] == "GSM3588003_BM5-34p38n.star.expr.RData") {
-      d <- d[, intersect(colnames(d), selected_cells), drop=FALSE]
-      message("Filtered for ", ncol(d), " cells in ", files[i])
-    }
-    
-    rownames(d.stats) <- paste0(names[i], "_", rownames(d.stats))
+    #rownames(d.stats) <- paste0(names[i], "_", rownames(d.stats))
+    print(d.stats[colnames(d), , drop=FALSE])
     d.stats <- d.stats[colnames(d), , drop=FALSE]   # some are not in d if 0 reads mapped to transcriptome
-    
-    print(dim(d))
     if(i == 1) {
       D.all <- d
       D.stats.all <- d.stats
