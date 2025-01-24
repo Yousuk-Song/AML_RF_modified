@@ -41,7 +41,6 @@ for (sample in matched_samples) {
   filtered_cell_ids <- filtered_data$Cell  # 첫 번째 열이 Cell ID
   
   # Cell ID 형식 통일 (필요한 경우)
-  # "AML1012-D0_AAAA..." -> "AAAA..."
   filtered_cell_ids <- gsub("-", ".", filtered_cell_ids)
   
   # 기존 변수 제거
@@ -52,7 +51,6 @@ for (sample in matched_samples) {
   
   # RData 파일 로드
   loaded_objects <- load(rdata_file)
-  print(paste("Loaded objects from", rdata_file, ":", paste(loaded_objects, collapse = ", ")))
   
   # Cell ID를 기준으로 필터링
   if (exists("d") && exists("d.stats")) {
@@ -64,7 +62,7 @@ for (sample in matched_samples) {
   } else {
     stop(paste("No matching data (D, D.stats, or d, d.stats) found in", rdata_file))
   }
-  
+  print(filtered_cells)
   # 필터링된 데이터를 리스트에 추가
   filtered_cells_list[[sample]] <- filtered_cells
   filtered_stats_list[[sample]] <- filtered_stats
@@ -77,12 +75,19 @@ for (sample in matched_samples) {
 }
 
 # 모든 데이터를 합쳐서 하나의 객체로 저장
+# 리스트의 이름 제거
+names(filtered_cells_list) <- NULL
 E <- do.call(cbind, filtered_cells_list)
 E.stats <- do.call(rbind, filtered_stats_list)
+E
 
-# 결과 저장
+# 최종 저장
 save(E, E.stats, file = output_file)
 
 # Total filtered cell 합계 출력
 cat("Total filtered cells across all samples:", total_filtered_cells, "\n")
 cat("Final combined data saved to:", output_file, "\n")
+
+
+
+
