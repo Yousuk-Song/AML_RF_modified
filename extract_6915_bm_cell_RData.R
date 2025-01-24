@@ -60,6 +60,7 @@ for (rdata_file in rdata_files) {
 }
 
 # 모든 데이터를 합쳐서 하나의 객체로 저장
+names(filtered_cells_list) <- NULL
 E <- do.call(cbind, filtered_cells_list)
 E.stats <- do.call(rbind, filtered_stats_list)
 
