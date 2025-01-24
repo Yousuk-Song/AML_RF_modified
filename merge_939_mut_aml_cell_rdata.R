@@ -77,11 +77,11 @@ for (sample in matched_samples) {
 }
 
 # 모든 데이터를 합쳐서 하나의 객체로 저장
-d <- do.call(cbind, filtered_cells_list)
-d.stats <- do.call(rbind, filtered_stats_list)
+E <- do.call(cbind, filtered_cells_list)
+E.stats <- do.call(rbind, filtered_stats_list)
 
 # 결과 저장
-save(AMLmut_939cells, AMLmut_939stats, file = output_file)
+save(E, E.stats, file = output_file)
 
 # Total filtered cell 합계 출력
 cat("Total filtered cells across all samples:", total_filtered_cells, "\n")
